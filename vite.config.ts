@@ -7,7 +7,7 @@ import { componentTagger } from "lovable-tagger"
 export default defineConfig(({ mode }) => {
   // For GitHub Pages deployment
   const isProduction = mode === 'production';
-  const base = isProduction ? '/dictionnaire-nzebi-fran-ais/' : './';
+  const base = isProduction ? '/dictionnaire-nzebi-fran-ais/' : '/';
   
   return {
     plugins: [

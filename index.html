@@ -87,14 +87,13 @@
       }
     </script>
 
-    <link rel="icon" href="/dictionnaire-nzebi-fran-ais/assets/favicon.ico">
-    <script type="module" crossorigin src="/dictionnaire-nzebi-fran-ais/assets/index.js"></script>
-    <link rel="stylesheet" crossorigin href="/dictionnaire-nzebi-fran-ais/assets/index.css">
+    <link rel="icon" href="./favicon.ico">
+    <script type="module" src="/src/main.tsx"></script>
   </head>
 
   <body class="font-sans">
     <div id="splash" class="splash-screen">
-      <img src="/dictionnaire-nzebi-fran-ais/splash-nzebi.png" id="splash-img" alt="Dictionnaire Nzebi-Français - Splash Screen" />
+      <img src="./splash-nzebi.png" id="splash-img" alt="Dictionnaire Nzebi-Français - Splash Screen" />
     </div>
     <div id="root"></div>
 
@@ -103,11 +102,9 @@
       (function() {
         const img = document.getElementById('splash-img');
         if (img && img.src.includes('/')) {
-          // If src has been prefixed with /, remove it for relative path
           img.src = 'splash-nzebi.png';
         }
       })();
     </script>
-
   </body>
 </html>

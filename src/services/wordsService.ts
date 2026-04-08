@@ -71,10 +71,12 @@ const saveWordsToLocal = (words: Word[]) => {
 
 const loadWordsFromJson = async (): Promise<Word[]> => {
   try {
+    console.log('Loading words from JSON...');
     const startTime = performance.now();
-    // In dev: /dictionnaire.json served from public/
-    // In production (GitHub Pages): /dictionnaire-nzebi-fran-ais/dictionnaire.json with base path
-    const response = await fetch('/dictionnaire.json', {
+    const baseUrl = (import.meta as any).env?.BASE_URL || '/';
+    const jsonPath = baseUrl + 'dictionnaire.json';
+    console.log('Fetching from:', jsonPath);
+    const response = await fetch(jsonPath, {
       cache: 'force-cache', // Use cached version if available (Service Worker)
     });
     
@@ -177,6 +179,7 @@ const cacheWordsToIndexedDB = async (words: Word[]): Promise<void> => {
 };
 
 const loadAllWordsInternal = async (): Promise<Word[]> => {
+  console.log('Loading all words internal...');
   const wordsFromJson = await loadWordsFromJson();
   if (wordsFromJson.length > 0) {
     // Build search index for performance
@@ -211,10 +214,11 @@ export interface PaginatedWordsResult {
 }
 
 export const getWordsPaginated = async (
-  _offset: number = 0,
-  _limit: number = 50,
+  offset: number = 0,
+  limit: number = 50,
   searchTerm: string = ''
 ): Promise<PaginatedWordsResult> => {
+  console.log('getWordsPaginated called with offset:', offset, 'limit:', limit, 'searchTerm:', searchTerm);
   const allWords = await getAllWords();
   
   let filteredWords = allWords;
@@ -241,11 +245,13 @@ export const getWordsPaginated = async (
     }
   }
   
-  // On renvoie tous les mots filtrés, sans pagination, pour s'assurer
-  // que l'utilisateur voit l'intégralité du dictionnaire.
+  // Apply pagination
+  const paginatedWords = filteredWords.slice(offset, offset + limit);
+  const hasMore = offset + limit < filteredWords.length;
+  
   return {
-    words: filteredWords,
-    hasMore: false,
+    words: paginatedWords,
+    hasMore,
     total: filteredWords.length,
   };
 };

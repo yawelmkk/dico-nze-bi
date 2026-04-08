@@ -9,8 +9,31 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>,
 );
 
-// Register Service Worker for offline support
-if ('serviceWorker' in navigator) {
+// In development, unregister any old service worker and clear caches to avoid stale builds
+if ('serviceWorker' in navigator && !import.meta.env.PROD) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    if (registrations.length > 0) {
+      console.log('[SW] Unregistering old service workers in development');
+    }
+    registrations.forEach((registration) => {
+      registration.unregister().then((success) => {
+        console.log('[SW] Unregistered service worker:', registration.scope, success);
+      });
+    });
+  });
+  if ('caches' in window) {
+    caches.keys().then((cacheNames) => {
+      cacheNames.forEach((cacheName) => {
+        caches.delete(cacheName).then((deleted) => {
+          console.log('[SW] Deleted cache:', cacheName, deleted);
+        });
+      });
+    });
+  }
+}
+
+// Register Service Worker for offline support in production only
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     const baseUrl = (import.meta as any).env?.BASE_URL || './';
     const swPath = './service-worker.js';

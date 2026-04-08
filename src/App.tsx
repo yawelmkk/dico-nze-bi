@@ -10,7 +10,7 @@ import NotFound from '@/pages/NotFound';
 
 function App() {
   const baseUrl = (import.meta as any).env?.BASE_URL || '/';
-  const basename = String(baseUrl).replace(/\/$/, '');
+  const basename = baseUrl;
 
   const isGithubPages = typeof window !== 'undefined' && /\.github\.io$/i.test(window.location.hostname);
   const Router: React.ComponentType<any> = isGithubPages ? (HashRouter as any) : (BrowserRouter as any);

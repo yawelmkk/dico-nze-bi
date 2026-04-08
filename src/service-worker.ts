@@ -2,7 +2,7 @@
 /// <reference lib="webworker" />
 declare const self: ServiceWorkerGlobalScope;
 
-const CACHE_VERSION = 'v1.0.1';
+const CACHE_VERSION = 'v1.0.0';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 const DATA_CACHE = `data-${CACHE_VERSION}`;

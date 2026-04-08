@@ -104,7 +104,7 @@ export default function Index({ searchTerm }: IndexProps) {
     isLoadingRef.current = true;
     setIsInitialLoad(true);
     try {
-      const initialLimit = 5000;
+      const initialLimit = 100;
       const result = await getWordsPaginated(0, initialLimit, searchTerm);
       setWords(result.words);
       setHasMore(result.hasMore);
@@ -124,7 +124,7 @@ export default function Index({ searchTerm }: IndexProps) {
     isLoadingRef.current = true;
     setCurrentOffset(0);
     try {
-      const initialLimit = 5000;
+      const initialLimit = 100;
       const result = await getWordsPaginated(0, initialLimit, searchTerm);
       setWords(result.words);
       setHasMore(result.hasMore);
@@ -145,7 +145,7 @@ export default function Index({ searchTerm }: IndexProps) {
     setIsLoading(true);
     
     try {
-      const batchSize = 5000;
+      const batchSize = 100;
       const result = await getWordsPaginated(currentOffsetRef.current, batchSize, searchTerm);
       setWords((prevWords) => [...prevWords, ...result.words]);
       setHasMore(result.hasMore);
